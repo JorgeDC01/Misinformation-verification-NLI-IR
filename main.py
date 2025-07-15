@@ -1,31 +1,29 @@
 import nbformat
 import os
 
-def force_fix_widgets_metadata(notebook_path, save_backup=True):
+def remove_widgets_metadata(notebook_path, save_backup=True):
+    # Cargar el notebook
     with open(notebook_path, 'r', encoding='utf-8') as f:
         nb = nbformat.read(f, as_version=4)
 
-    # Backup
+    # Hacer backup opcional
     if save_backup:
         backup_path = notebook_path + ".bak"
         with open(backup_path, 'w', encoding='utf-8') as f:
             nbformat.write(nb, f)
-        print(f"🛡️ Backup guardado en {backup_path}")
+        print(f"🛡️ Backup creado: {backup_path}")
 
-    # Forzar 'widgets' con clave 'state'
-    if 'metadata' not in nb:
-        nb['metadata'] = {}
-
-    if 'widgets' not in nb['metadata'] or not isinstance(nb['metadata']['widgets'], dict):
-        nb['metadata']['widgets'] = {}
-
-    nb['metadata']['widgets']['state'] = nb['metadata']['widgets'].get('state', {})
+    # Eliminar widgets
+    if 'widgets' in nb.get('metadata', {}):
+        del nb['metadata']['widgets']
+        print(f"🧹 'metadata.widgets' eliminado de {notebook_path}")
 
     # Guardar
     with open(notebook_path, 'w', encoding='utf-8') as f:
         nbformat.write(nb, f)
 
-    print(f"✅ Reparado: {notebook_path}")
+    print(f"✅ Notebook limpio y guardado: {notebook_path}")
 
-# Uso:
-force_fix_widgets_metadata("not_IR_NLI_LoRA - copia.ipynb")
+# Ejemplo de uso:
+
+remove_widgets_metadata("not_IR_NLI_LoRA - copia.ipynb")

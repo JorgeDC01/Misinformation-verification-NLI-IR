@@ -26,4 +26,6 @@ def remove_widgets_metadata(notebook_path, save_backup=True):
 
 # Ejemplo de uso:
 
-remove_widgets_metadata("not_IR_NLI_LoRA - copia.ipynb")
+remove_widgets_metadata("IR_NLI_LoRA.ipynb")
+remove_widgets_metadata("not_IR_NLI_LoRA.ipynb")
+remove_widgets_metadata("not_IR_NLI_noLoRA.ipynb")
